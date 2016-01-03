@@ -1,0 +1,19 @@
+upstream backend {
+     server {{web01_uri}};
+     server {{web02_uri}};
+}
+
+server {
+    #ssl_certificate /etc/nginx/certs/demo.pem;
+    #ssl_certificate_key /etc/nginx/certs/demo.key;
+
+    gzip_types text/plain text/css application/json application/x-javascript
+               text/xml application/xml application/xml+rss text/javascript;
+
+    server_name localhost;
+
+    location / {
+        proxy_pass http://backend;
+        include /etc/nginx/proxy_params;
+    }
+}
