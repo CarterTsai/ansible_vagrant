@@ -1,4 +1,16 @@
 ---
+
+- hosts: lb
+  sudo: true
+  gather_facts: no
+  tasks:
+    - name: update apt cache
+      apt: update_cache=yes
+    - name: install nginx
+      apt: name=nginx state=present
+    - name: restart nginx
+      service: name=nginx state=restarted
+
 - hosts: web01
   sudo: true
   gather_facts: no
@@ -21,15 +33,6 @@
      shell: curl -sL https://deb.nodesource.com/setup_5.x | sudo -E bash -
    - name: install nodejs
      apt: name=nodejs state=present
-
-- hosts: lb
-  sudo: true
-  gather_facts: no
-  tasks:
-    - name: update apt cache
-      apt: update_cache=yes
-    - name: install nginx
-      apt: name=nginx state=present
 
 - hosts: db
   sudo: true
