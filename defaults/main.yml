@@ -1,0 +1,11 @@
+# file: vagrant-ansible/defaults/main.yml
+
+# Basic settings
+lb_name   : lb
+web01_name: web01
+web02_name: web02
+db_name   : db
+
+nodejs_directory: /home/vagrant/nodejs/
+nodejs_service_user: vagrant
+nodejs_service_group: vagrant 

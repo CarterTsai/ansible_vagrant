@@ -52,25 +52,25 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
 
     # web02
-    # config.vm.define "web02" do |web02|
-    #   web02.vm.box = "debian/wheezy64"
-    #   web02.vm.hostname = "%s" % "web02"
-    #   web02.vm.network :forwarded_port, guest: 80, host: 8882
-    #   web02.vm.network :forwarded_port, guest: 22, host: hosts["web02"]["ssh_port"]
-    #
-    #   web02.vm.network "private_network", ip: hosts["web02"]["ip"], virtualbox__intnet: "hello"
-    #   web02.ssh.forward_agent = true
-    #
-    #   web02.vm.provision :ansible do |ansible|
-    #     ansible.verbose = "v"
-    #     ansible.playbook = "playbook.yml"
-    #     ansible.sudo = true
-    #     ansible.inventory_path = 'hosts'
-    #     ansible.host_key_checking = false
-    #     end
-    # end
+    config.vm.define "web02" do |web02|
+      web02.vm.box = "debian/wheezy64"
+      web02.vm.hostname = "%s" % "web02"
+      web02.vm.network :forwarded_port, guest: 80, host: 8882
+      web02.vm.network :forwarded_port, guest: 22, host: hosts["web02"]["ssh_port"]
 
-    # web01
+      web02.vm.network "private_network", ip: hosts["web02"]["ip"], virtualbox__intnet: "hello"
+      web02.ssh.forward_agent = true
+
+      web02.vm.provision :ansible do |ansible|
+        ansible.verbose = "v"
+        ansible.playbook = "playbook.yml"
+        ansible.sudo = true
+        ansible.inventory_path = 'hosts'
+        ansible.host_key_checking = false
+        end
+    end
+
+    # DB
     # config.vm.define "db" do |db|
     #   db.vm.box = "debian/wheezy64"
     #   db.vm.hostname = "%s" % "db"

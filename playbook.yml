@@ -1,5 +1,4 @@
 ---
-
 - hosts: lb
   sudo: true
   gather_facts: no
@@ -14,6 +13,14 @@
 - hosts: web01
   sudo: true
   gather_facts: no
+  vars:
+      lb_name   : lb
+      web01_name: web01
+      web02_name: web02
+      db_name   : db
+      nodejs_directory: /home/vagrant/nodejs/
+      nodejs_service_user: vagrant
+      nodejs_service_group: vagrant
 
   tasks:
    - name: update apt cache
@@ -22,10 +29,41 @@
      shell: curl -sL https://deb.nodesource.com/setup_5.x | sudo -E bash -
    - name: install nodejs
      apt: name=nodejs state=present
+   - name: create directory
+     shell: mkdir -p {{nodejs_directory}}
+   - name: copy index.js
+     template:
+         src:  templates/web01.js
+         dest: "{{nodejs_directory}}/index.js"
+         owner: "{{ nodejs_service_user }}"
+         group: "{{ nodejs_service_group }}"
+         mode: 0640
+   - name: copy package.json
+     template:
+          src:  templates/package.json
+          dest: "{{nodejs_directory}}/package.json"
+          owner: "{{ nodejs_service_user }}"
+          group: "{{ nodejs_service_group }}"
+          mode: 0640
+   - name: install package
+     shell: npm install {{nodejs_directory}}
+   - name: install pm2
+     shell: sudo npm install -g pm2
+   - name: run web server
+     shell: bash -lc  "cd {{nodejs_directory}} && sudo npm start"
 
 - hosts: web02
   sudo: true
   gather_facts: no
+  vars:
+      lb_name   : lb
+      web01_name: web01
+      web02_name: web02
+      db_name   : db
+
+      nodejs_directory: /home/vagrant/nodejs/
+      nodejs_service_user: vagrant
+      nodejs_service_group: vagrant
   tasks:
    - name: update apt cache
      apt: update_cache=yes
@@ -33,6 +71,28 @@
      shell: curl -sL https://deb.nodesource.com/setup_5.x | sudo -E bash -
    - name: install nodejs
      apt: name=nodejs state=present
+   - name: create directory
+     shell: mkdir -p {{nodejs_directory}}
+   - name: copy index.js
+     template:
+         src:  templates/web02.js
+         dest: "{{nodejs_directory}}/index.js"
+         owner: "{{ nodejs_service_user }}"
+         group: "{{ nodejs_service_group }}"
+         mode: 0640
+   - name: copy package.json
+     template:
+          src:  templates/package.json
+          dest: "{{nodejs_directory}}/package.json"
+          owner: "{{ nodejs_service_user }}"
+          group: "{{ nodejs_service_group }}"
+          mode: 0640
+   - name: install pm2
+     shell: sudo npm install -g pm2
+   - name: install package
+     shell: npm install {{nodejs_directory}}
+   - name: run web server
+     shell: bash -lc  "cd {{nodejs_directory}} && sudo npm start"
 
 - hosts: db
   sudo: true

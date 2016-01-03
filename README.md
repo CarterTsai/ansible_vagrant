@@ -14,3 +14,11 @@ $> vagrant destroy -f; and vagrant up
 ```
 $> ansible-playbook -i ./hosts playbook.yml
 ```
+
+### Check All Environment output port
+```
+$> vagrant port lb
+$> vagrant port web01
+$> vagrant port web02
+$> vagrant port db
+```
