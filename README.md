@@ -3,16 +3,35 @@
 Reference:   
 1. https://adamcod.es/2014/09/23/vagrant-ansible-quickstart-tutorial.html  
 2. http://www.vagrantbox.es/  
+3. http://www.slideshare.net/williamyeh/ansible-top-down
+4. https://www.nginx.com/resources/admin-guide/load-balancer/
 
+### Architecture
+```
++-----------------------------+
+|      +---- web01 ----+      |
+| lb --|               |-- db |
+|      +---- web02 ----+      |
++-----------------------------+
+```
+* lb    (10.0.2.15)
+* web01 (10.0.2.16)
+* web02 (10.0.2.17)
+* db    (10.0.2.18)
 
 ### Run Vagrant
+This step is create vm for lb, web01, web02, db with Vagrantfile
 ```
 $> vagrant destroy -f; and vagrant up
 ```
 
-### Run only playbook
+### Run only playbook to update vm
 ```
-$> ansible-playbook -i ./hosts playbook.yml
+$> ansible-playbook \
+    --verbose \
+    --become \
+    --user=vagrant \
+    -i ./hosts playbook.yml
 ```
 
 ### Check All Environment output port

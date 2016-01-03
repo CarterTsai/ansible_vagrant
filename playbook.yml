@@ -2,11 +2,25 @@
 - hosts: lb
   sudo: true
   gather_facts: no
+  vars:
+      web01_uri: "10.0.2.16:8881"
+      web02_uri: "10.0.2.17:8882"
+      nginx_available_dir: "/etc/nginx/sites-available"
+      ngnix_service_user: root
+      ngnix_service_group: root
+
   tasks:
     - name: update apt cache
       apt: update_cache=yes
     - name: install nginx
       apt: name=nginx state=present
+    - name: copy default to site-available
+      template:
+          src:  templates/nginx-reverse-proxy-default
+          dest: "{{nginx_available_dir}}/default"
+          owner: "{{ ngnix_service_user }}"
+          group: "{{ ngnix_service_group }}"
+          mode: 0644
     - name: restart nginx
       service: name=nginx state=restarted
 

@@ -22,7 +22,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       lb.vm.network :forwarded_port, guest: 80, host: 8880
       lb.vm.network :forwarded_port, guest: 22, host: hosts["lb"]["ssh_port"]
 
+      # Create internal network
       lb.vm.network "private_network", ip: hosts["lb"]["ip"], virtualbox__intnet: "hello"
+      lb.vm.network "private_network", ip: hosts["web01"]["ip"], virtualbox__intnet: "hello"
+      lb.vm.network "private_network", ip: hosts["web02"]["ip"], virtualbox__intnet: "hello"
+
       lb.ssh.forward_agent = true
       lb.vm.provision :ansible do |ansible|
         ansible.verbose = "v"
@@ -40,7 +44,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       web01.vm.network :forwarded_port, guest: 80, host: 8881
       web01.vm.network :forwarded_port, guest: 22, host: hosts["web01"]["ssh_port"]
 
+      # Create internal network
       web01.vm.network "private_network", ip: hosts["web01"]["ip"], virtualbox__intnet: "hello"
+
       web01.ssh.forward_agent = true
       web01.vm.provision :ansible do |ansible|
         ansible.verbose = "v"
@@ -58,6 +64,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       web02.vm.network :forwarded_port, guest: 80, host: 8882
       web02.vm.network :forwarded_port, guest: 22, host: hosts["web02"]["ssh_port"]
 
+      # Create internal network
       web02.vm.network "private_network", ip: hosts["web02"]["ip"], virtualbox__intnet: "hello"
       web02.ssh.forward_agent = true
 
@@ -76,6 +83,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     #   db.vm.hostname = "%s" % "db"
     #   db.vm.network :forwarded_port, guest: 22, host: hosts["db"]["ssh_port"]
     #
+    #   # Create internal network
+    #   db.vm.network "private_network", ip: hosts["web01"]["ip"], virtualbox__intnet: "hello"
+    #   db.vm.network "private_network", ip: hosts["web02"]["ip"], virtualbox__intnet: "hello"
     #   db.vm.network "private_network", ip: hosts["db"]["ip"], virtualbox__intnet: "hello"
     #   db.ssh.forward_agent = true
     #
