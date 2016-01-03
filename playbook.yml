@@ -1,0 +1,62 @@
+---
+- hosts: web01
+  sudo: true
+  gather_facts: no
+
+  tasks:
+   - name: update apt cache
+     apt: update_cache=yes
+   - name: install node before
+     shell: curl -sL https://deb.nodesource.com/setup_5.x | sudo -E bash -
+   - name: install nodejs
+     apt: name=nodejs state=present
+
+- hosts: web02
+  sudo: true
+  gather_facts: no
+  tasks:
+   - name: update apt cache
+     apt: update_cache=yes
+   - name: install node before
+     shell: curl -sL https://deb.nodesource.com/setup_5.x | sudo -E bash -
+   - name: install nodejs
+     apt: name=nodejs state=present
+
+- hosts: lb
+  sudo: true
+  gather_facts: no
+  tasks:
+    - name: update apt cache
+      apt: update_cache=yes
+    - name: install nginx
+      apt: name=nginx state=present
+
+- hosts: db
+  sudo: true
+  sudo_user: postgres
+  gather_facts: no
+
+  vars:
+    dbname: test
+    dbuser: postgres
+    dbpassword: 1qaz@WSX3edc
+
+    handlers:
+    - name: restart postgresql
+      service: name=postgresql state=restarted
+
+    tasks:
+    - name: update apt cache
+      apt: update_cache=yes
+    - name: install postgresql
+      apt: name={{item}}
+      with_items:
+      - python-software-properties
+      - software-properties-common
+      - libpq-dev
+      - python-psycopg2
+      - postgresql-9.4
+    - name: ensure database is created
+      postgresql_db: name={{dbname}}
+    - name: ensure user has access to database
+      postgresql_user: db={{dbname}} name={{dbuser}} password={{dbpassword}} priv=ALL

@@ -1,0 +1,9 @@
+[lbservers]
+lb ansible_ssh_host=127.0.0.1 ansible_ssh_port=2232
+
+[webservers]
+web01 ansible_ssh_host=127.0.0.1 ansible_ssh_port=2234
+web02 ansible_ssh_host=127.0.01 ansible_ssh_port=2256
+
+[dbservers]
+db  ansible_ssh_host=127.0.0.1 ansible_ssh_port=2278
