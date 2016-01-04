@@ -5,6 +5,9 @@ Reference:
 2. http://www.vagrantbox.es/  
 3. http://www.slideshare.net/williamyeh/ansible-top-down
 4. https://www.nginx.com/resources/admin-guide/load-balancer/
+5. http://www.virtualbox.org/manual/ch06.html
+6. http://www.virtualbox.org/manual/ch06.html#network_internal
+7. http://docs.ansible.com/ansible/file_module.html
 
 ### Architecture
 ```

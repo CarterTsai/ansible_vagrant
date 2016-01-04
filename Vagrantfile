@@ -14,7 +14,7 @@ VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # Use the same key for each machine
     config.ssh.insert_key = false
-    config.ssh.private_key_path = "./key/insecure_private_key"
+    config.ssh.private_key_path = "~/.vagrant.d/insecure_private_key"
     # lb
     config.vm.define "lb" do |lb|
       lb.vm.box = "debian/wheezy64"

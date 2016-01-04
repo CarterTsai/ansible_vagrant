@@ -44,7 +44,7 @@
    - name: install nodejs
      apt: name=nodejs state=present
    - name: create directory
-     shell: mkdir -p {{nodejs_directory}}
+     shell:  path={{nodejs_directory}} state=directory mode=0755
    - name: copy index.js
      template:
          src:  templates/web01.js
@@ -63,6 +63,15 @@
      shell: npm install {{nodejs_directory}}
    - name: install pm2
      shell: sudo npm install -g pm2
+   - name: startup pm2
+     shell: sudo pm2 startup ubuntu
+   - name: copy pm2-init.sh
+     template:
+          src:  templates/pm2-init.d
+          dest: "/etc/init.d/pm2-init.sh"
+          owner: "root"
+          group: "root"
+          mode: 0755
    - name: run web server
      shell: bash -lc  "cd {{nodejs_directory}} && sudo npm start"
 
@@ -74,10 +83,10 @@
       web01_name: web01
       web02_name: web02
       db_name   : db
-
       nodejs_directory: /home/vagrant/nodejs/
       nodejs_service_user: vagrant
       nodejs_service_group: vagrant
+
   tasks:
    - name: update apt cache
      apt: update_cache=yes
@@ -86,7 +95,7 @@
    - name: install nodejs
      apt: name=nodejs state=present
    - name: create directory
-     shell: mkdir -p {{nodejs_directory}}
+     file: path={{nodejs_directory}} state=directory mode=0755
    - name: copy index.js
      template:
          src:  templates/web02.js
@@ -101,10 +110,19 @@
           owner: "{{ nodejs_service_user }}"
           group: "{{ nodejs_service_group }}"
           mode: 0640
-   - name: install pm2
-     shell: sudo npm install -g pm2
    - name: install package
      shell: npm install {{nodejs_directory}}
+   - name: install pm2
+     shell: sudo npm install -g pm2
+   - name: startup pm2
+     shell: sudo pm2 startup ubuntu
+   - name: copy pm2-init.sh
+     template:
+          src:  templates/pm2-init.d
+          dest: "/etc/init.d/pm2-init.sh"
+          owner: "root"
+          group: "root"
+          mode: 0755
    - name: run web server
      shell: bash -lc  "cd {{nodejs_directory}} && sudo npm start"
 
