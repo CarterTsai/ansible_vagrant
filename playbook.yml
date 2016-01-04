@@ -44,7 +44,7 @@
    - name: install nodejs
      apt: name=nodejs state=present
    - name: create directory
-     shell:  path={{nodejs_directory}} state=directory mode=0755
+     file:  path={{nodejs_directory}} state=directory mode=0755
    - name: copy index.js
      template:
          src:  templates/web01.js
