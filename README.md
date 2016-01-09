@@ -32,6 +32,12 @@ $> vagrant destroy -f; and vagrant up
 ```
 $> vagrant destroy -f && vagrant up
 ```
+
+### Check service is working
+```
+$> curl 192.168.1.200
+```
+
 ### Run only playbook to update vm
 ```
 $> ansible-playbook \
