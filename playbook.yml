@@ -3,8 +3,8 @@
   sudo: true
   gather_facts: no
   vars:
-      web01_uri: "10.0.2.16:8881"
-      web02_uri: "10.0.2.17:8882"
+      web01_uri: "192.168.1.201"
+      web02_uri: "192.168.1.202"
       nginx_available_dir: "/etc/nginx/sites-available"
       ngnix_service_user: root
       ngnix_service_group: root

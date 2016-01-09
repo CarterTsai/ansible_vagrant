@@ -24,10 +24,14 @@ Reference:
 
 ### Run Vagrant
 This step is create vm for lb, web01, web02, db with Vagrantfile
+* fish shell
 ```
 $> vagrant destroy -f; and vagrant up
 ```
-
+* bash shell
+```
+$> vagrant destroy -f && vagrant up
+```
 ### Run only playbook to update vm
 ```
 $> ansible-playbook \
@@ -44,3 +48,19 @@ $> vagrant port web01
 $> vagrant port web02
 $> vagrant port db
 ```
+
+### Ping all your nodes
+ Reference : [intro_getting_started][1]
+```
+$> ansible all -m ping
+```
+or
+```
+$> ansible all -m ping -u vagrant
+```
+or
+```
+$> ansible all -m ping -u vagrant --sudo
+```
+
+[1]: http://docs.ansible.com/ansible/intro_getting_started.html

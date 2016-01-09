@@ -1,9 +1,9 @@
 [lbservers]
-lb ansible_ssh_host=127.0.0.1 ansible_ssh_port=2232 ansible_ssh_user=vagrant ansible_ssh_private_key_file=~/.vagrant.d/insecure_private_key
+lb ansible_ssh_host=192.168.1.200 ansible_ssh_port=22
 
 [webservers]
-web01 ansible_ssh_host=127.0.0.1 ansible_ssh_port=2234 ansible_ssh_user=vagrant ansible_ssh_private_key_file=~/.vagrant.d/insecure_private_key
-web02 ansible_ssh_host=127.0.0.1 ansible_ssh_port=2256 ansible_ssh_user=vagrant ansible_ssh_private_key_file=~/.vagrant.d/insecure_private_key
+web01 ansible_ssh_host=192.168.1.201 ansible_ssh_port=22
+web02 ansible_ssh_host=192.168.1.202 ansible_ssh_port=22
 
 [dbservers]
-db  ansible_ssh_host=127.0.0.1 ansible_ssh_port=2278 ansible_ssh_user=vagrant ansible_ssh_private_key_file=~/.vagrant.d/insecure_private_key
+db  ansible_ssh_host=192.168.1.203 ansible_ssh_port=22
